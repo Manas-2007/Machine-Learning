@@ -1,0 +1,2 @@
+This is the VS code file WRITE function
+Hello append function
