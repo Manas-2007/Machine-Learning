@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+import joblib
 
 data = {
     "RAM_GB": [4, 8, 8, 16, 16, 32, 32, 64, 16, 8],
@@ -10,7 +11,7 @@ data = {
     "Price": [35000, 48000, 56000, 72000, 85000, 115000, 145000, 210000, 78000, 50000]
 }
 dataset=pd.DataFrame(data)
-print("=========== ORIGINAL DATASET =============\n",dataset)
+print("============ ORIGINAL DATASET =============\n",dataset)
 
 # Features & Target selection 
 x=dataset[["RAM_GB","Storage_GB","Processor_Gen","Battery_Hours"]]
@@ -20,6 +21,7 @@ x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=10
 # Model Training
 model=LinearRegression()
 model.fit(x_train,y_train)
+joblib.dump(model,"Laptop_price.pkl")
 
 # Slops & Intercept
 print("Slopes (Coeffients) : ",model.coef_)
