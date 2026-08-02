@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+import joblib
 
 def get_fraud_status(prediction):
     if prediction[0]==0:
@@ -16,7 +17,7 @@ y=dataset["Fraud"]
 x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42)
 model=LogisticRegression()
 model.fit(x_train,y_train)
-
+joblib.dump(model,r"C:\Users\Student\Desktop\Pandas\Machine-Learning\Web Interface\1 Fraud System\Backend\fraud_model.pkl")
 dataset["Fraud Prediction"]=model.predict(dataset[["Transaction_Amount","Location_Risk","Device_Trust","Transactions_Today"]])
 fraud_label={
     0:"Legitimate",
