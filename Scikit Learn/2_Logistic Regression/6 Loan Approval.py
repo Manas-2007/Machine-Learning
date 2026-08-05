@@ -11,7 +11,7 @@ X=dataset[["Age","Annual_Income","Credit_Score","Existing_Loans","Employment_Yea
 # Label -> Numbers (label encoding)
 dataset["Loan_Status"]=encoder.fit_transform(dataset["Loan_Status"])
 y=dataset["Loan_Status"]
-x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42)
+x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2,randoṇm_state=42)
 
 model=LogisticRegression()
 model.fit(x_train,y_train)

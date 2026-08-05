@@ -1,0 +1,36 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (accuracy_score,f1_score,precision_score,recall_score,confusion_matrix)
+from sklearn.preprocessing import LabelEncoder
+
+dataset = pd.read_excel(r"C:\Users\HP\Desktop\Machine Learning\Excel files\Internship Eligibility.xlsx")
+# print("========================= ORIGINAL DATASET =========================")
+# print(dataset)
+
+# features and target
+X=dataset[["Age","CGPA","Backlogs","Projects","Internships","DSA_Problems","Aptitude_Score","Communication","Attendance","Certifications"]]
+
+# Label Encoding
+result_encoder=LabelEncoder()
+dataset["Eligible"]=result_encoder.fit_transform(dataset["Eligible"])
+y=dataset["Eligible"]
+x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=42)
+
+# Training the model
+model=LogisticRegression()
+model.fit(x_train,y_train)
+dataset["Predicted_Eligible"]=model.predict(X)
+dataset["Predicted_Eligible"]=result_encoder.inverse_transform(dataset["Predicted_Eligible"])
+dataset["Eligible"]=result_encoder.inverse_transform(dataset["Eligible"])
+
+# Displaying the final prediction result 
+print("\n=========================== AI PREDICTION ============================")
+print(dataset)
+
+# Model Evaluation
+y_pred=model.predict(x_test)
+print("\n\n========================= MODEL EVALUATION =========================")
+print("ACCURACY : ",round(accuracy_score(y_test,y_pred),2)*100,"%")
+print("PRECISION : ",round(precision_score(y_test,y_pred),2)*100,"%")
+print("F1 SCORE : ",round(f1_score(y_test,y_pred),2)*100,"%")
