@@ -30,7 +30,16 @@ print(dataset)
 
 # Model Evaluation
 y_pred=model.predict(x_test)
-print("\n\n========================= MODEL EVALUATION =========================")
-print("ACCURACY : ",round(accuracy_score(y_test,y_pred),2)*100,"%")
-print("PRECISION : ",round(precision_score(y_test,y_pred),2)*100,"%")
-print("F1 SCORE : ",round(f1_score(y_test,y_pred),2)*100,"%")
+print("\n========================= MODEL EVALUATION =========================")
+
+print("Accuracy :",round(accuracy_score(y_test,y_pred),2)*100,"%")
+
+print("Precision :",round(precision_score(y_test,y_pred),2)*100,"%")
+
+print("Recall :",round(recall_score(y_test,y_pred),2)*100,"%")
+
+print("F1 Score :",round(f1_score(y_test,y_pred),2)*100,"%")
+
+print("\nConfusion Matrix")
+
+print(confusion_matrix(y_test,y_pred))
