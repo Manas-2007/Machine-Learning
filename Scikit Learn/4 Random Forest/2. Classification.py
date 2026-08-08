@@ -1,8 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import  LabelEncoder
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (accuracy_score,precision_score,f1_score,confusion_matrix,recall_score)
 
 dataset=pd.read_excel(r"C:\Users\Student\Desktop\Pandas\Machine-Learning\Excel files\DT Classification 2.xlsx")
@@ -23,28 +22,19 @@ dataset["Placement_Status"] = label.fit_transform(dataset["Placement_Status"])
 y = dataset["Placement_Status"]
 x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=42)
 
-linear_model=LogisticRegression(max_iter=1000)
-tree_model=DecisionTreeClassifier(random_state=42)
+model=RandomForestClassifier(random_state=42,n_estimators=100)
+model.fit(x_train,y_train)
 
-linear_model.fit(x_train,y_train)
-tree_model.fit(x_train,y_train)
-
-dataset["Linear Status"]=linear_model.predict(X)
-dataset["Tree Status"]=tree_model.predict(X)
-
-dataset["Tree Status"]=label.inverse_transform(dataset["Tree Status"])
-dataset["Linear Status"]=label.inverse_transform(dataset["Linear Status"])
+dataset["Predicted Status"]=model.predict(X)
 dataset["Placement_Status"]=label.inverse_transform(dataset["Placement_Status"])
+dataset["Predicted Status"]=label.inverse_transform(dataset["Predicted Status"])
 
 print("================ AI PREDICTION VS ACTUAL RESULTS ======================")
 print(dataset)
 
-# Prediction on test data
-y_pred1 = linear_model.predict(x_test)
-y_pred2=tree_model.predict(x_test)
-
 print("\n========================= MODEL EVALUATION =========================")
-print("----- LOGISTIC REGRESSION ---------")
+y_pred1=model.predict(x_test)
+print("----- RANDOM FOREST ALGORITHM ---------")
 print("Accuracy :", round(accuracy_score(y_test, y_pred1), 2) * 100, "%")
 print("Precision :", round(precision_score(y_test, y_pred1), 2) * 100, "%")
 print("Recall :", round(recall_score(y_test, y_pred1), 2) * 100, "%")
@@ -52,13 +42,3 @@ print("F1 Score :", round(f1_score(y_test, y_pred1), 2) * 100, "%")
 
 print("\nConfusion Matrix")
 print(confusion_matrix(y_test, y_pred1))
-
-print("----- DECISION TREE CLASSIFICATION ---------")
-print("Accuracy :", round(accuracy_score(y_test, y_pred2), 2) * 100, "%")
-print("Precision :", round(precision_score(y_test, y_pred2), 2) * 100, "%")
-print("Recall :", round(recall_score(y_test, y_pred2), 2) * 100, "%")
-print("F1 Score :", round(f1_score(y_test, y_pred2), 2) * 100, "%")
-
-print("\nConfusion Matrix")
-print(confusion_matrix(y_test, y_pred2))
-
